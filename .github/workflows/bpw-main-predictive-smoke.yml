@@ -1,0 +1,36 @@
+name: BPW Main Predictive Smoke
+
+on:
+  push:
+    branches:
+      - test/bpw-main-predictive-remote-bigquery
+  workflow_dispatch:
+
+jobs:
+  gradle-build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Start Build Process Watcher
+        uses: cdsap/build-process-watcher@main
+        with:
+          predictive_reliability: 'true'
+          interval: '2'
+          debug: 'true'
+          run_id: experiment-agp-921-${{ github.run_id }}-${{ github.run_attempt }}
+
+      - name: Build app
+        run: ./gradlew :app:app:assembleDebug --no-daemon --stacktrace
