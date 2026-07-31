@@ -33,4 +33,4 @@ jobs:
           run_id: bpw-${{ github.run_id }}-${{ github.run_attempt }}
 
       - name: Build app
-        run: ./gradlew :app:app:assembleDebug --no-daemon --stacktrace
+        run: ./gradlew assemble --no-daemon --stacktrace
