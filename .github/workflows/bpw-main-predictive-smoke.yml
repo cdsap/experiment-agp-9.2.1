@@ -30,7 +30,7 @@ jobs:
           predictive_reliability: 'true'
           interval: '2'
           debug: 'true'
-          run_id: experiment-agp-921-${{ github.run_id }}-${{ github.run_attempt }}
+          run_id: bpw-${{ github.run_id }}-${{ github.run_attempt }}
 
       - name: Build app
         run: ./gradlew :app:app:assembleDebug --no-daemon --stacktrace
