@@ -9,3 +9,16 @@ plugins {
     id("com.autonomousapps.dependency-analysis") version "2.19.0" apply true
 
 }
+
+val bpwPredictiveHold by tasks.registering {
+    doLast {
+        val seconds = (System.getenv("BPW_RUN_SECONDS") ?: "1250").toLong()
+        Thread.sleep(seconds * 1000)
+    }
+}
+
+allprojects {
+    tasks.matching { it.name == "assemble" }.configureEach {
+        finalizedBy(rootProject.tasks.named("bpwPredictiveHold"))
+    }
+}
